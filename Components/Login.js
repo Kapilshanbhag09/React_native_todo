@@ -1,5 +1,8 @@
-import React from 'react'
-import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView } from 'react-native'
+import React, { useState,useEffect } from 'react'
+import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity } from 'react-native'
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function Login() {
     return (
@@ -18,17 +21,37 @@ export default function Login() {
                 </SafeAreaView>
             </View>
             <View style={styles.login_view}>{/*Login View */}
-                <View>
-                   <Text>Username</Text>
-                </View>
-                <View>
-                    <TextInput/>
-                </View>
-                <View>
-                    <Text>Password</Text>
-                </View>
-                <View>
-                    <TextInput/>
+            <View>
+                   <Text style={styles.login_label}>Username</Text>
+               
+                    <TextInput style={styles.login_inputfield}/>
+               
+                
+                    <Text style={styles.login_label}>Password</Text>
+               
+                
+                    <TextInput style={styles.login_inputfield}/>
+                    <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
+                       <TouchableOpacity style={styles.login_button} onPress={()=>console.log("Clicked")}>
+                           <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
+                           <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Login</Text>
+                           </View>
+                       </TouchableOpacity>
+                       </View>
+                       <View style={{marginLeft:40,flexDirection:'column',alignItems:'center',marginTop:10}}>
+
+                      
+                       <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>--------------OR--------------</Text>
+                       </View>
+                       <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
+                       <TouchableOpacity style={styles.login_button} onPress={()=>console.log("Clicked signup")}>
+                           <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
+                           <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Sign Up</Text>
+                           </View>
+                       </TouchableOpacity>
+                       </View>
+                    
+               
                 </View>
             </View>
           
@@ -66,15 +89,41 @@ const styles = StyleSheet.create({
         },  
 
     login_view:{
-        height:Dimensions.get('window').height,
+        height:Dimensions.get('window').height-(Dimensions.get('window').width/2),
         //-Dimensions.get('window').width/2,
         backgroundColor:"#FF003E",
-        display:'flex',
-        flexDirection:'column',
-        alignItems:'center',
-        textAlign:'center',
+        flexDirection:'row',
+        alignItems:"center",
         //-Dimensions.get('window').width/2,
     },
+    login_label:{
+        color:"white",
+        fontWeight:'bold',
+        fontSize:30,
+        marginLeft:40,
+        marginBottom:10,
+        marginTop:10,
+ },
+    login_inputfield:{
+        borderBottomWidth:2,
+        borderBottomColor:"white",
+        marginLeft:40,
+        width:Dimensions.get('window').width-80,
+        height:30,
+        fontSize:25,
+        marginBottom:5,
+
+    },
+    login_button:{
+      
+        backgroundColor:'white',
+        width:200,
+        flexDirection:'row',
+        alignItems:'center',
+        borderRadius:1000,
+        height:50,
+        marginTop:20
+    }
 
 
     
