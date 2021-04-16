@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 
-export default function Login() {
+export default function Signup() {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
@@ -24,7 +24,7 @@ export default function Login() {
             <KeyboardAvoidingView style={styles.login_view}
              behavior={Platform.OS === "ios" ? "padding" : "height"}
             >{/*Login View */}
-            <View>
+            <View style={{marginTop:-100}}>
                    <Text style={styles.login_label}>Username</Text>
                
                     <TextInput style={styles.login_inputfield}
@@ -46,22 +46,11 @@ export default function Login() {
                     <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
                        <TouchableOpacity style={styles.login_button} onPress={()=>console.log("Clicked")}>
                            <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
-                           <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Login</Text>
-                           </View>
-                       </TouchableOpacity>
-                       </View>
-                       <View style={{marginLeft:40,flexDirection:'column',alignItems:'center',marginTop:10}}>
-
-                      
-                       <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>--------------OR--------------</Text>
-                       </View>
-                       <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
-                       <TouchableOpacity style={styles.signup_button} onPress={()=>console.log("Clicked signup")}>
-                           <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
                            <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Sign Up</Text>
                            </View>
                        </TouchableOpacity>
                        </View>
+                       
                     
                
                 </View>
