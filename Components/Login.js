@@ -5,6 +5,7 @@ export default function Login() {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
+    console.log("Login Page")
     return (
         <View>
 
