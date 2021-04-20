@@ -1,15 +1,13 @@
 import React, { useState,useEffect } from 'react'
 import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 
-export default function Login() {
+function Login({ navigation }) {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
-    console.log("Login Page")
     return (
         <View>
-
-            <View style={styles.upper_design}>{/*Upper Design */}
+        <View style={styles.upper_design}>
                 <View style={styles.upper_design_circle_1}>
                 <View style={styles.upper_design_circle_2}>
 
@@ -22,9 +20,7 @@ export default function Login() {
                 </SafeAreaView>
             </View>
             <View>
-            <KeyboardAvoidingView style={styles.login_view}
-             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >{/*Login View */}
+            <KeyboardAvoidingView style={styles.login_view}>
             <View>
                    <Text style={styles.login_label}>Username</Text>
                
@@ -57,7 +53,7 @@ export default function Login() {
                        <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>--------------OR--------------</Text>
                        </View>
                        <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
-                       <TouchableOpacity style={styles.signup_button} onPress={()=>console.log("Clicked signup")}>
+                       <TouchableOpacity style={styles.signup_button} onPress={()=>navigation.navigate('SignUp')}>
                            <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
                            <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Sign Up</Text>
                            </View>
@@ -68,9 +64,8 @@ export default function Login() {
                 </View>
             </KeyboardAvoidingView>
             </View>
-          
         </View>
-    )
+    );
 }
 const styles = StyleSheet.create({
     upper_design:{
@@ -148,8 +143,9 @@ const styles = StyleSheet.create({
         borderRadius:1000,
         height:45,
         marginTop:20
-    }
+    },
 
 
     
 });
+export default Login;

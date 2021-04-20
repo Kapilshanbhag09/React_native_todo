@@ -1,13 +1,12 @@
 import React, { useState,useEffect } from 'react'
 import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 
-export default function Signup() {
+export default function Signup({navigation}) {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
     return (
         <View>
-
             <View style={styles.upper_design}>{/*Upper Design */}
                 <View style={styles.upper_design_circle_1}>
                 <View style={styles.upper_design_circle_2}>
@@ -56,9 +55,14 @@ export default function Signup() {
                 </View>
             </KeyboardAvoidingView>
             </View>
+            <TouchableOpacity style={{position:'absolute',top:0,left:0}} onPress={()=>navigation.goBack()}  >
+                <SafeAreaView>
+                <Image style={{height:48, resizeMode:'contain',}} source={require('../assets/go_back.png')}/>
+                </SafeAreaView>
+            </TouchableOpacity>
           
         </View>
-    )
+    );
 }
 const styles = StyleSheet.create({
     upper_design:{

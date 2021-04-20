@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { StyleSheet,View, Text, SafeAreaView, Dimensions, ScrollView, TouchableOpacity} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function Home() {
+export default function Home({navigation}) {
     const [login_username,setlogin_username]=useState('')
   AsyncStorage.getItem('login_username').then((e)=>setlogin_username(e));
     return (
