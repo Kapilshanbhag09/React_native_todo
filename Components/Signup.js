@@ -28,7 +28,7 @@ export default function Signup({navigation}) {
               if(resp=="User created"){
                   AsyncStorage.setItem('login_username',username,()=>{
                       AsyncStorage.setItem('login_password',password,()=>{
-                        navigation.goBack()
+                        navigation.navigate('Home')
                         
 
 

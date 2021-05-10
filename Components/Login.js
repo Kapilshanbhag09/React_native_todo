@@ -25,7 +25,6 @@ function Login({ navigation }) {
         .then(function(res) {
             const resp=res.data;
             if(resp=="Invalid Password"){
-                console.log(resp)
               Alert.alert(
                   "Invalid Password",
                   "Please Enter correct password",
@@ -35,7 +34,6 @@ function Login({ navigation }) {
                 );
             }
             if(resp=="User could not be found"){
-                console.log(resp)
               Alert.alert(
                   "Invalid User",
                   "Please Enter correct Username",
@@ -47,6 +45,8 @@ function Login({ navigation }) {
             if(resp=="Verified"){
                 AsyncStorage.setItem('login_username',username,()=>{
                     AsyncStorage.setItem('login_password',password,()=>{
+                        setusername('')
+                        setpassword('')
                         navigation.navigate('Home')
                     })
                 })
@@ -54,7 +54,6 @@ function Login({ navigation }) {
             
         })
         .catch(function (error) {
-            console.log("Error")
           console.log(JSON.stringify(error));
         })
     }

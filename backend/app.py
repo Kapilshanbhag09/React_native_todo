@@ -68,11 +68,25 @@ def Listfetch(username):
     tasklist=[]
     docs=collection.find({})
     for i in docs:
-        tasklist.append(i['taskname'])
+        tasklist.append(i['listname'])
     if(len(tasklist)==0):
         return "No List found"
     else:
         return json.dumps(tasklist)
-
+#Tasks fetch
+@app.route('/tasksfetch/<username>/<listname>')
+def Taskfetch(username,listname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    taskslist=[]
+    docs=collection.find({})
+    for i in docs:
+        taskslist.append([i['taskname'],i['status']])
+    print(len(taskslist))
+    if(len(taskslist)==0):
+        return "No Task found"
+    else:
+        return json.dumps(taskslist)
 if __name__=='__main__':
     app.run()
