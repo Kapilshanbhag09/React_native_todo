@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Login from './Components/Login'
@@ -11,20 +11,29 @@ const Stack = createStackNavigator();
 export default function App() {
   
   const [login_username,setlogin_username]=useState('')
-  AsyncStorage.getItem('login_username').then((e)=>setlogin_username(e));
-  console.log("Value is "+login_username)
+  const[iniroute,setinitoute]=useState('');
   return (
    
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
-          name="Home"
+          name="Login"
           component={Login}
-          options={{headerShown:false}}
+          options={{headerShown:false,gestureEnabled:false}}
         />
         <Stack.Screen
           name="SignUp"
           component={Signup}
+          options={{headerShown:false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{headerShown:false,gestureEnabled:false}}
+        />
+        <Stack.Screen
+          name="Task"
+          component={Tasks}
           options={{headerShown:false}}
         />
         </Stack.Navigator>

@@ -1,10 +1,63 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState,useEffect } from 'react'
-import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-
+import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView,Alert } from 'react-native'
+const axios = require('axios');
 function Login({ navigation }) {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
+    useEffect(() => {
+        // Update the document title using the browser API
+        AsyncStorage.getItem('login_username').then((e)=>{
+          console.log(e)
+          if(e==null){
+            console.log('');
+          }
+          else{
+            navigation.navigate('Home')
+          }
+        }
+        );
+      },[]);
+    const loginclicked=()=>{
+        console.log("Login function clicked")
+        axios.get('http://3629ed50c494.ngrok.io/login_verify/'+username+'/'+password)
+        .then(function(res) {
+            const resp=res.data;
+            if(resp=="Invalid Password"){
+                console.log(resp)
+              Alert.alert(
+                  "Invalid Password",
+                  "Please Enter correct password",
+                  [
+                    { text: "OK", onPress: () => console.log('') }
+                  ]
+                );
+            }
+            if(resp=="User could not be found"){
+                console.log(resp)
+              Alert.alert(
+                  "Invalid User",
+                  "Please Enter correct Username",
+                  [
+                    { text: "OK", onPress: () => console.log('') }
+                  ]
+                );
+            }
+            if(resp=="Verified"){
+                AsyncStorage.setItem('login_username',username,()=>{
+                    AsyncStorage.setItem('login_password',password,()=>{
+                        navigation.navigate('Home')
+                    })
+                })
+            }
+            
+        })
+        .catch(function (error) {
+            console.log("Error")
+          console.log(JSON.stringify(error));
+        })
+    }
     return (
         <View>
         <View style={styles.upper_design}>
@@ -20,7 +73,8 @@ function Login({ navigation }) {
                 </SafeAreaView>
             </View>
             <View>
-            <KeyboardAvoidingView style={styles.login_view}>
+            <KeyboardAvoidingView style={styles.login_view}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <View>
                    <Text style={styles.login_label}>Username</Text>
                
@@ -41,7 +95,7 @@ function Login({ navigation }) {
                     
                     
                     <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
-                       <TouchableOpacity style={styles.login_button} onPress={()=>console.log("Clicked")}>
+                       <TouchableOpacity style={styles.login_button} onPress={loginclicked}>
                            <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
                            <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Login</Text>
                            </View>

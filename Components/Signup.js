@@ -1,10 +1,46 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState,useEffect } from 'react'
-import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+const axios = require('axios');
+import { View, Text,StyleSheet,Dimensions, TextInput,Image, SafeAreaView, Button, TouchableOpacity, KeyboardAvoidingView,Alert } from 'react-native'
 
 export default function Signup({navigation}) {
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
+    const sign_up_clicked=()=>{
+        axios.get('http://3629ed50c494.ngrok.io/signup/'+username+'/'+password)
+          .then(function(res) {
+              const resp=res.data;
+              if(resp=="Username Exists"){
+                Alert.alert(
+                    "Username Already Exists",
+                    "You have already signed up",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log(''),
+                        style: "cancel"
+                      },
+                      { text: "OK", onPress: () => navigation.goBack() }
+                    ]
+                  );
+              }
+              if(resp=="User created"){
+                  AsyncStorage.setItem('login_username',username,()=>{
+                      AsyncStorage.setItem('login_password',password,()=>{
+                        navigation.goBack()
+                        
+
+
+
+                      })
+                  })
+              }
+          })
+          .catch(function (error) {
+            console.log(JSON.stringify(error));
+          })
+    }
     return (
         <View>
             <View style={styles.upper_design}>{/*Upper Design */}
@@ -43,7 +79,7 @@ export default function Signup({navigation}) {
                     
                     
                     <View style={{marginLeft:40,flexDirection:'column',alignItems:'center'}}>
-                       <TouchableOpacity style={styles.login_button} onPress={()=>console.log("Clicked")}>
+                       <TouchableOpacity style={styles.login_button} onPress={sign_up_clicked}>
                            <View style={{flexDirection:'column',alignItems:'center',width:"100%"}}>
                            <Text style={{textAlign:'center',fontSize:30,color:"#FF003E",fontWeight:'bold'}}>Sign Up</Text>
                            </View>
