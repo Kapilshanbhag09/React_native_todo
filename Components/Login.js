@@ -21,7 +21,7 @@ function Login({ navigation }) {
       },[]);
     const loginclicked=()=>{
         console.log("Login function clicked")
-        axios.get('http://3629ed50c494.ngrok.io/login_verify/'+username+'/'+password)
+        axios.get('http://ca41f4079b19.ngrok.io/login_verify/'+username+'/'+password)
         .then(function(res) {
             const resp=res.data;
             if(resp=="Invalid Password"){

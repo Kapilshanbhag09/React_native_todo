@@ -7,7 +7,7 @@ export default function Tasks({route,navigation}) {
     const[tasklist,settasklist]=useState({})
     useEffect(() => {
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://3629ed50c494.ngrok.io/tasksfetch/'+e+'/'+route.params.taskname)
+            axios.get('http://ca41f4079b19.ngrok.io/tasksfetch/'+e+'/'+route.params.taskname)
             .then(function(res) {
                 if(res.data!="No Task found"){
                 settasklist(res.data)

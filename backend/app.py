@@ -88,5 +88,23 @@ def Taskfetch(username,listname):
         return "No Task found"
     else:
         return json.dumps(taskslist)
+#Add List
+@app.route('/addlist/<username>/<listname>')
+def AddList(username,listname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient['Todo_React_Native']
+    collection=db[username+'_tasklist']
+    collection.insert({'listname':listname})
+    return "Inserted"
+
+#Delete List
+@app.route('/deletelist/<username>/<listname>')
+def DeleteList(username,listname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient['Todo_React_Native']
+    collection=db[username+'_tasklist']
+    myquery = { "listname": listname }
+    collection.delete_one(myquery)
+    return "Deleted"
 if __name__=='__main__':
     app.run()
