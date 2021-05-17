@@ -9,15 +9,15 @@ export default function Home({navigation}) {
     const[tasklist,settasklist]=useState({})
     const[isaddModel,setisaddModel]=useState(false)
     const[newlistname,setnewlistname]=useState('')
+    const[usehandler,setusehandler]=useState(false)
     useEffect(() => {
         AsyncStorage.getItem('login_username').then((e)=>{
             setlogin_username(e)
-            axios.get('http://ca41f4079b19.ngrok.io/listfetch/'+e)
+            axios.get('http://67c192299887.ngrok.io/listfetch/'+e)
             .then(function(res) {
                 if(res.data!="No List found"){
                 settasklist(res.data)
                 setlistfound(true)
-                console.log(res.data)
                 }
             })
             .catch(function (error) {
@@ -25,7 +25,7 @@ export default function Home({navigation}) {
             })
 
         });
-    }, [])
+    }, [usehandler])
     const logout_pressed=()=>{
         AsyncStorage.setItem('login_username','',()=>{
             AsyncStorage.setItem('login_password','',()=>{
@@ -34,25 +34,10 @@ export default function Home({navigation}) {
         })
     }
     const delete_pressed=listname=>()=>{
-        console.log("Enterd Fucntion")
-        axios.get('http://ca41f4079b19.ngrok.io/deletelist/'+login_username+'/'+listname)
+        axios.get('http://67c192299887.ngrok.io/deletelist/'+login_username+'/'+listname)
             .then(function(res) {
                 if(res.data=="Deleted"){
-                    console.log("Deleted")
-                    var dtemplisarr=tasklist
-            
-                    dtemplisarr.splice(dtemplisarr.indexOf(listname), 1);
-                    var deltemplisarr=[];
-                    console.log(dtemplisarr.length)
-                    for(var i=0;i<dtemplisarr.length;i++){
-                        console.log(i)
-                        deltemplisarr.push(dtemplisarr[i]);
-                    }
-                    // console.log("The first element")
-                    // console.log(deltemplisarr[0])
-                    // console.log("Del temp lis arr")
-                    // console.log(deltemplisarr)
-                    settasklist(dtemplisarr)
+                    setusehandler(!usehandler)
                 }
             })
             .catch(function (error) {
@@ -61,14 +46,11 @@ export default function Home({navigation}) {
         
     }
     const add_list=()=>{
-        axios.get('http://ca41f4079b19.ngrok.io/addlist/'+login_username+'/'+newlistname)
+        axios.get('http://67c192299887.ngrok.io/addlist/'+login_username+'/'+newlistname)
             .then(function(res) {
                 if(res.data=="Inserted"){
-                    console.log("Inserted")
-                    var templistarr=tasklist
-                    templistarr.push(newlistname)
+                   setusehandler(!usehandler);
                     setnewlistname('')
-                    settasklist(templistarr)
                     Alert.alert(
                         "Inserted !",
                         "New List has been inserted at the end",
@@ -95,7 +77,7 @@ export default function Home({navigation}) {
                 <View style={{backgroundColor:"#000000aa",flex:1,flexDirection:'row',alignItems:'center'}}>
                     <View style={{backgroundColor:"#ffffff",flexDirection:'column',flex:1,marginLeft:50,marginRight:50}}>
                     <View>
-                    <Text style={{color:"#FF003E",fontWeight:'bold',fontSize:30,marginLeft:40,marginBottom:10,marginTop:10,}}>Add Task Name</Text>
+                    <Text style={{color:"#FF003E",fontWeight:'bold',fontSize:30,marginLeft:40,marginBottom:10,marginTop:10,}}>Add List Name</Text>
                
                <TextInput style={{ borderBottomWidth:2,borderBottomColor:"#FF003E",height:30,fontSize:25,marginBottom:5,color:'#FF003E',marginLeft:20,marginRight:20}}
                   value={newlistname}
@@ -129,7 +111,7 @@ export default function Home({navigation}) {
             <ScrollView contentInset={{bottom: 60}}style={{backgroundColor:'white',height:"100%",borderTopLeftRadius:30,borderTopRightRadius:30,paddingTop:5}}>
             {
                 listfound==false?
-                <Text>Not found</Text>
+                <Text style={{textAlign:'center',marginTop:10,fontSize:20}}>Not found</Text>
                 :
                 tasklist.map((task)=>{
                     return(

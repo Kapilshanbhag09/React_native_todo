@@ -14,16 +14,11 @@ def Home():
 def Database(databasename):
     myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
     mydb = myclient['Todo_React_Native']
-    print(mydb)
-    print("New line")
-    print(mydb.list_collection_names())
-    print(myclient.list_database_names())
     return databasename
 
 #Signup verification
 @app.route('/signup/<username>/<password>',methods=["GET"])
 def Signup(username,password):
-    print("Entered")
     myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
     db=myclient['Todo_React_Native']
     collection=db["user_credentials"]
@@ -83,7 +78,6 @@ def Taskfetch(username,listname):
     docs=collection.find({})
     for i in docs:
         taskslist.append([i['taskname'],i['status']])
-    print(len(taskslist))
     if(len(taskslist)==0):
         return "No Task found"
     else:
@@ -105,6 +99,68 @@ def DeleteList(username,listname):
     collection=db[username+'_tasklist']
     myquery = { "listname": listname }
     collection.delete_one(myquery)
+    db2=myclient[username+"_taskdb"]
+    col2=db2[listname]
+    col2.drop()
     return "Deleted"
+#Task completed
+@app.route('/taskcompleted/<username>/<listname>/<taskname>')
+def Taskcompleted(username,listname,taskname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    taskname.replace("%20"," ")
+    myquery = { "taskname": taskname }
+    newvalues = { "$set": { "status": "complete" } }
+    collection.update_one(myquery, newvalues)
+    return "Added to completed"
+
+#Task Not Completed
+@app.route('/tasknotcompleted/<username>/<listname>/<taskname>')
+def TaskNotcompleted(username,listname,taskname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    taskname.replace("%20"," ")
+    myquery = { "taskname": taskname }
+    newvalues = { "$set": { "status": "incomplete" } }
+    collection.update_one(myquery, newvalues)
+    return "Added to Incomplete"
+
+#Add Task
+@app.route('/addtask/<username>/<listname>/<taskname>')
+def Addtask(username,listname,taskname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    taskname.replace("%20"," ")
+    collection.insert({'taskname':taskname,'status':'incomplete'})
+    return "Task Inserted"
+
+
+
+#Task Deletion
+@app.route('/deletetask/<username>/<listname>/<taskname>')
+def Deletetask(username,listname,taskname):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    taskname.replace("%20"," ")
+    myquery = { "taskname": taskname }
+    collection.delete_one(myquery)
+    return "Task deleted"
+
+#Edit Task
+@app.route('/edittask/<username>/<listname>/<fromtask>/<totask>')
+def Edittask(username,listname,fromtask,totask):
+    myclient = pymongo.MongoClient("mongodb://127.0.0.1:27017/")
+    db=myclient[username+'_taskdb']
+    collection=db[listname]
+    fromtask.replace("%20"," ")
+    totask.replace("%20"," ")
+    myquery = { "taskname": fromtask }
+    newvalues = { "$set": { "taskname": totask } }
+    collection.update_one(myquery, newvalues)
+    return "Task Edited"
 if __name__=='__main__':
     app.run()

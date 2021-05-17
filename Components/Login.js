@@ -9,7 +9,6 @@ function Login({ navigation }) {
     useEffect(() => {
         // Update the document title using the browser API
         AsyncStorage.getItem('login_username').then((e)=>{
-          console.log(e)
           if(e==null){
             console.log('');
           }
@@ -20,8 +19,7 @@ function Login({ navigation }) {
         );
       },[]);
     const loginclicked=()=>{
-        console.log("Login function clicked")
-        axios.get('http://ca41f4079b19.ngrok.io/login_verify/'+username+'/'+password)
+        axios.get(process.env.REACT_APP_BACKEND_LINK+'/login_verify/'+username+'/'+password)
         .then(function(res) {
             const resp=res.data;
             if(resp=="Invalid Password"){
