@@ -13,7 +13,7 @@ export default function Home({navigation}) {
     useEffect(() => {
         AsyncStorage.getItem('login_username').then((e)=>{
             setlogin_username(e)
-            axios.get('http://67c192299887.ngrok.io/listfetch/'+e)
+            axios.get('backend_url/listfetch/'+e)
             .then(function(res) {
                 if(res.data!="No List found"){
                 settasklist(res.data)
@@ -34,7 +34,7 @@ export default function Home({navigation}) {
         })
     }
     const delete_pressed=listname=>()=>{
-        axios.get('http://67c192299887.ngrok.io/deletelist/'+login_username+'/'+listname)
+        axios.get('backend_url/deletelist/'+login_username+'/'+listname)
             .then(function(res) {
                 if(res.data=="Deleted"){
                     setusehandler(!usehandler)
@@ -46,7 +46,7 @@ export default function Home({navigation}) {
         
     }
     const add_list=()=>{
-        axios.get('http://67c192299887.ngrok.io/addlist/'+login_username+'/'+newlistname)
+        axios.get('backend_url/addlist/'+login_username+'/'+newlistname)
             .then(function(res) {
                 if(res.data=="Inserted"){
                    setusehandler(!usehandler);

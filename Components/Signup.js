@@ -8,7 +8,7 @@ export default function Signup({navigation}) {
     const [password,setpassword]=useState('')
     const [showpass,setshowpass]=useState(false)
     const sign_up_clicked=()=>{
-        axios.get('http://67c192299887.ngrok.io/signup/'+username+'/'+password)
+        axios.get('backend_url/signup/'+username+'/'+password)
           .then(function(res) {
               const resp=res.data;
               if(resp=="Username Exists"){

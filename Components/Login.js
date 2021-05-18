@@ -19,7 +19,7 @@ function Login({ navigation }) {
         );
       },[]);
     const loginclicked=()=>{
-        axios.get(process.env.REACT_APP_BACKEND_LINK+'/login_verify/'+username+'/'+password)
+        axios.get('backend_url/login_verify/'+username+'/'+password)
         .then(function(res) {
             const resp=res.data;
             if(resp=="Invalid Password"){

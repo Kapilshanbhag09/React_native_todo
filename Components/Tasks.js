@@ -13,7 +13,7 @@ export default function Tasks({route,navigation}) {
     const[edittasknameto,setedittasknameto]=useState('');
     useEffect(() => {
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/tasksfetch/'+e+'/'+route.params.taskname)
+            axios.get('backend_url/tasksfetch/'+e+'/'+route.params.taskname)
             .then(function(res) {
                 if(res.data!="No Task found"){
                 settasklist(res.data)
@@ -30,7 +30,7 @@ export default function Tasks({route,navigation}) {
     //Add task function
     const addtask=()=>{
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/addtask/'+e+'/'+route.params.taskname+'/'+newtaskname)
+            axios.get('backend_url/addtask/'+e+'/'+route.params.taskname+'/'+newtaskname)
             .then(function(res) {
                 if(res.data=="Task Inserted"){
                    setusehandler(!usehandler);
@@ -59,7 +59,7 @@ export default function Tasks({route,navigation}) {
     //Task complete function
     const tocomplete=taskname=>()=>{
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/taskcompleted/'+e+'/'+route.params.taskname+'/'+taskname)
+            axios.get('backend_url/taskcompleted/'+e+'/'+route.params.taskname+'/'+taskname)
             .then(function(res) {
                 if(res.data=="Added to completed"){
                     setusehandler(!usehandler);
@@ -73,7 +73,7 @@ export default function Tasks({route,navigation}) {
     }
     const toincomplete=taskname=>()=>{
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/tasknotcompleted/'+e+'/'+route.params.taskname+'/'+taskname)
+            axios.get('backend_url/tasknotcompleted/'+e+'/'+route.params.taskname+'/'+taskname)
             .then(function(res) {
                 if(res.data=="Added to Incomplete"){
                     setusehandler(!usehandler);
@@ -88,7 +88,7 @@ export default function Tasks({route,navigation}) {
     }
     const deletetask=taskname=>()=>{
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/deletetask/'+e+'/'+route.params.taskname+'/'+taskname)
+            axios.get('backend_url/deletetask/'+e+'/'+route.params.taskname+'/'+taskname)
             .then(function(res) {
                 if(res.data=="Task deleted"){
                     setusehandler(!usehandler)
@@ -111,7 +111,7 @@ export default function Tasks({route,navigation}) {
     }
     const edittask=()=>{
         AsyncStorage.getItem('login_username').then((e)=>{
-            axios.get('http://67c192299887.ngrok.io/edittask/'+e+'/'+route.params.taskname+'/'+edittasknamefrom+'/'+edittasknameto)
+            axios.get('backend_url/edittask/'+e+'/'+route.params.taskname+'/'+edittasknamefrom+'/'+edittasknameto)
             .then(function(res) {
                 if(res.data=="Task Edited"){
                     setusehandler(!usehandler)
